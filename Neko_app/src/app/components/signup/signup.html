@@ -52,7 +52,8 @@
       <input type="password" formControlName="password" [class.invalid]="f['password'].invalid && f['password'].touched" />
       <div class="error">
         <small *ngIf="f['password'].touched && f['password'].errors?.['required']">Password is required</small>
-        <small *ngIf="f['password'].touched && f['password'].errors?.['minlength']">Password must be at least 6 characters</small>
+        <small *ngIf="f['password'].touched && f['password'].errors?.['minlength']">Password must be at least 8 characters</small>
+        <small *ngIf="f['password'].touched && f['password'].errors?.['pattern']">Password must have 1 uppercase and 1 special character</small>
         <small *ngIf="!f['password'].touched || !f['password'].errors">&nbsp;</small>
       </div>
     </div>
@@ -62,7 +63,6 @@
       <label>Confirm Password</label>
       <input type="password" formControlName="confirmPassword" [class.invalid]="(f['confirmPassword'].invalid && f['confirmPassword'].touched) || signupForm.errors?.['mismatch']" />
       <div class="error">
-        <small *ngIf="f['confirmPassword'].touched && f['confirmPassword'].errors?.['required']">Confirm Password is required</small>
         <small *ngIf="signupForm.errors?.['mismatch'] && f['confirmPassword'].touched">Passwords do not match</small>
         <small *ngIf="!f['confirmPassword'].touched || (!f['confirmPassword'].errors && !signupForm.errors?.['mismatch'])">&nbsp;</small>
       </div>
