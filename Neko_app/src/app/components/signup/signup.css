@@ -9,13 +9,13 @@
 }
 
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 2px; /* compact spacing */
 }
 
 label {
   display: block;
   font-weight: 600;
-  margin-bottom: 5px;
+  margin-bottom: 3px; /* small spacing from input */
 }
 
 input {
@@ -37,10 +37,16 @@ input {
     border-color: #dc3545;
   }
 
-.error small {
-  color: #dc3545;
-  font-size: 12px;
+.error {
+  min-height: 16px; /* reserve space for error messages */
+  margin-top: 2px;
 }
+
+  .error small {
+    color: #dc3545;
+    font-size: 12px;
+    display: block;
+  }
 
 button.btn {
   width: 100%;
@@ -52,6 +58,7 @@ button.btn {
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.3s;
+  margin-top: 10px;
 }
 
   button.btn:hover {
