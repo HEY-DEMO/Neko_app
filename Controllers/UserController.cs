@@ -27,7 +27,7 @@ namespace Neko_api.Controllers
         {
             // Check if Name, Email, or Mobile already exists
             bool exists = await _context.Users.AnyAsync(u =>
-                u.Name == user.Name || u.Email == user.Email || u.Mobile == user.Mobile);
+                u.Name == user.Username || u.Email == user.Email || u.Mobile == user.Mobile);
 
             if (exists)
             {
@@ -38,7 +38,24 @@ namespace Neko_api.Controllers
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetUsers), new { id = user.Id }, user);
+            return CreatedAtAction(nameof(GetUsers), new { id = user }, user);
+        }
+
+        [HttpGet("checkuser")]
+        public async Task<IActionResult> CheckUser(string username, string email, string mobile)
+        {
+            // Check each field in the database
+            var usernameExists = await _context.Users.AnyAsync(u => u.Username == username);
+            var emailExists = await _context.Users.AnyAsync(u => u.Email == email);
+            var mobileExists = await _context.Users.AnyAsync(u => u.Mobile == mobile);
+
+            // Return detailed response
+            return Ok(new
+            {
+                usernameExists,
+                emailExists,
+                mobileExists
+            });
         }
 
     }
