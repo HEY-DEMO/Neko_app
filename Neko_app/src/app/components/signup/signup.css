@@ -1,7 +1,7 @@
 .signup-container {
   max-width: 400px;
   margin: 40px auto;
-  padding: 30px;
+  padding: 40px ;
   background: #fff;
   border-radius: 10px;
   box-shadow: 0 10px 25px rgba(0,0,0,0.1);
@@ -9,17 +9,17 @@
 }
 
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 2px; /* compact spacing */
 }
 
 label {
   display: block;
   font-weight: 600;
-  margin-bottom: 5px;
+  margin-bottom: 3px; /* small spacing from input */
 }
 
 input {
-  width: 100%;
+  width: 95%;
   padding: 10px 12px;
   border: 1px solid #ccc;
   border-radius: 6px;
@@ -37,13 +37,19 @@ input {
     border-color: #dc3545;
   }
 
-.error small {
-  color: #dc3545;
-  font-size: 12px;
+.error {
+  min-height: 16px; /* reserve space for error messages */
+  margin-top: 2px;
 }
 
+  .error small {
+    color: #dc3545;
+    font-size: 12px;
+    display: block;
+  }
+
 button.btn {
-  width: 100%;
+  width: 102%;
   padding: 12px;
   background: #007bff;
   color: #fff;
@@ -52,6 +58,7 @@ button.btn {
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.3s;
+  margin-top: 10px;
 }
 
   button.btn:hover {
