@@ -8,6 +8,11 @@
   font-family: 'Segoe UI', sans-serif;
 }
 
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
 .form-group {
   margin-bottom: 2px; /* compact spacing */
 }
