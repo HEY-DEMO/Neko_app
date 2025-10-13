@@ -1,3 +1,4 @@
+﻿using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Neko_api.Data;
@@ -22,23 +23,24 @@ namespace Neko_api.Controllers
             return await _context.Users.ToListAsync();
         }
 
-        [HttpPost]
-        public async Task<ActionResult<User>> CreateUser(User user)
+        [HttpPost("signup")]
+        public async Task<ActionResult<User>> CreateUser([FromBody] User user)
         {
-            // Check if Name, Email, or Mobile already exists
+            if (user == null)
+                return BadRequest("Invalid user data.");
+
             bool exists = await _context.Users.AnyAsync(u =>
-                u.Name == user.Username || u.Email == user.Email || u.Mobile == user.Mobile);
+                u.Username == user.Username || u.Email == user.Email || u.Mobile == user.Mobile);
 
             if (exists)
-            {
-                return BadRequest("A user with the same Name, Email, or Mobile already exists.");
-            }
+                return BadRequest("A user with the same Username, Email, or Mobile already exists.");
 
-            // Insert new user
+            user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
+
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetUsers), new { id = user }, user);
+            return CreatedAtAction(nameof(GetUsers), new { id = user.Userid}, user);
         }
 
         [HttpGet("checkuser")]
@@ -58,5 +60,21 @@ namespace Neko_api.Controllers
             });
         }
 
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] User_login request)
+        {
+            var user = await _context.Users
+                .FirstOrDefaultAsync(u => u.Email == request.EmailOrMobile || u.Mobile == request.EmailOrMobile);
+
+            if (user == null)
+                return Unauthorized("Invalid credentials. Please try again.");
+
+            bool isPasswordValid = BCrypt.Net.BCrypt.Verify(request.Password, user.Password);
+
+            if (!isPasswordValid)
+                return Unauthorized("Invalid credentials. Please try again.");
+
+            return Ok(new { message = "Login successful", user });
+        }
     }
 }
