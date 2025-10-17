@@ -4,10 +4,7 @@
 
     <!-- Name -->
     <div class="form-group">
-      <input type="text"
-             formControlName="name"
-             placeholder="Name"
-             [class.invalid]="f['name'].invalid && f['name'].touched" />
+      <input type="text" formControlName="name" placeholder="Name" [class.invalid]="f['name'].invalid && f['name'].touched" />
       <div class="error">
         <small *ngIf="f['name'].touched && f['name'].errors?.['required']">Name is required</small>
         <small *ngIf="f['name'].touched && f['name'].errors?.['minlength']">Name must be at least 3 characters</small>
@@ -17,10 +14,7 @@
 
     <!-- Username -->
     <div class="form-group">
-      <input type="text"
-             formControlName="username"
-             placeholder="Username"
-             [class.invalid]="f['username'].invalid && f['username'].touched" />
+      <input type="text" formControlName="username" placeholder="Username" [class.invalid]="f['username'].invalid && f['username'].touched" />
       <div class="error">
         <small *ngIf="f['username'].touched && f['username'].errors?.['required']">Username is required</small>
         <small *ngIf="f['username'].touched && f['username'].errors?.['minlength']">Username must be at least 3 characters</small>
@@ -31,10 +25,7 @@
 
     <!-- Mobile -->
     <div class="form-group">
-      <input type="text"
-             formControlName="mobile"
-             placeholder="Mobile"
-             [class.invalid]="f['mobile'].invalid && f['mobile'].touched" />
+      <input type="text" formControlName="mobile" placeholder="Mobile" [class.invalid]="f['mobile'].invalid && f['mobile'].touched" />
       <div class="error">
         <small *ngIf="f['mobile'].touched && f['mobile'].errors?.['required']">Mobile is required</small>
         <small *ngIf="f['mobile'].touched && f['mobile'].errors?.['pattern']">Mobile must be 10 digits</small>
@@ -44,10 +35,7 @@
 
     <!-- Email -->
     <div class="form-group">
-      <input type="email"
-             formControlName="email"
-             placeholder="Email"
-             [class.invalid]="f['email'].invalid && f['email'].touched" />
+      <input type="email" formControlName="email" placeholder="Email" [class.invalid]="f['email'].invalid && f['email'].touched" />
       <div class="error">
         <small *ngIf="f['email'].touched && f['email'].errors?.['required']">Email is required</small>
         <small *ngIf="f['email'].touched && f['email'].errors?.['email']">Email is invalid</small>
@@ -57,10 +45,7 @@
 
     <!-- Password -->
     <div class="form-group">
-      <input type="password"
-             formControlName="password"
-             placeholder="Password"
-             [class.invalid]="f['password'].invalid && f['password'].touched" />
+      <input type="password" formControlName="password" placeholder="Password" [class.invalid]="f['password'].invalid && f['password'].touched" />
       <div class="error">
         <small *ngIf="f['password'].touched && f['password'].errors?.['required']">Password is required</small>
         <small *ngIf="f['password'].touched && f['password'].errors?.['minlength']">Password must be at least 8 characters</small>
@@ -71,9 +56,7 @@
 
     <!-- Confirm Password -->
     <div class="form-group">
-      <input type="password"
-             formControlName="confirmPassword"
-             placeholder="Confirm Password"
+      <input type="password" formControlName="confirmPassword" placeholder="Confirm Password"
              [class.invalid]="(f['confirmPassword'].invalid && f['confirmPassword'].touched) || signupForm.errors?.['mismatch']" />
       <div class="error">
         <small *ngIf="signupForm.errors?.['mismatch'] && f['confirmPassword'].touched">Passwords do not match</small>
