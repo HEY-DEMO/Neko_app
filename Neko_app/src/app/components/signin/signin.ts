@@ -1,69 +1,68 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
 import { UserService } from '../../services/Users/user.service';
+import { HttpClientModule } from '@angular/common/http';
+import { RouterModule, Router } from '@angular/router';
 
 @Component({
   selector: 'app-signin',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, HttpClientModule, RouterModule],
   templateUrl: './signin.html',
   styleUrls: ['./signin.css']
 })
 export class SigninComponent {
-  signinForm: FormGroup;
+  loginForm: FormGroup;
   submitted = false;
-  errorMessage: string = '';
+  errorMessage: string | null = null;
 
+  // Inject Router here
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
     private router: Router
   ) {
-    this.signinForm = this.fb.group({
-      emailOrMobile: ['', [
-        Validators.required,
-        Validators.pattern(/^(\d{10}|[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4})$/)
-      ]],
-      password: ['', [Validators.required, Validators.minLength(8)]]
+    this.loginForm = this.fb.group({
+      emailOrMobile: ['', [Validators.required]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 
   get f() {
-    return this.signinForm.controls;
+    return this.loginForm.controls;
   }
 
   onSubmit() {
     this.submitted = true;
+    this.errorMessage = null;
 
-    if (this.signinForm.invalid) {
-      return;
-    }
+    if (this.loginForm.invalid) return;
 
-    const { emailOrMobile, password } = this.signinForm.value;
-
-    this.userService.login(emailOrMobile, password).subscribe({
+    this.userService.login(this.loginForm.value).subscribe({
       next: (res: any) => {
-        console.log('Login successful', res);
-
-        this.errorMessage = '';
-
-        this.router.navigate(['/']);
-      },
+        console.log('Login response:', res);  // Always log to debug
+        if (res && res.token) {                // backend sends token only on success
+          console.log('Login successful');
+          localStorage.setItem('token', res.token);
+          this.router.navigateByUrl('/');
+        } else {
+          this.errorMessage = res?.message || 'Invalid credentials';
+        }
+      }
+      ,
       error: (err: any) => {
-        console.error('Login failed:', err);
-        this.errorMessage = 'Invalid credentials. Please try again.';
+        console.error(err);
+        this.errorMessage = 'Login failed. Please try again later.';
       }
     });
   }
 
-
-  goToSignup() {
-    this.router.navigate(['/signup']);
+  onForgotPassword() {
+    console.log('Navigate to Forgot Password page');
   }
 
-  forgotPassword() {
-    this.router.navigate(['/forgot-password']);
+  onSignup() {
+    this.router.navigate(['signup']);
   }
 }
