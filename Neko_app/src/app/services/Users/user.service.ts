@@ -5,21 +5,24 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-  private apiUrl = 'http://localhost:5202/api/user'; // replace with your backend URL
+  private apiUrl = 'http://localhost:5202/api/User'; // your backend
 
   constructor(private http: HttpClient) { }
 
-  // Checks if username, email, or mobile exists
+  // Existing methods
   checkuser(data: { username: string; email: string; mobile: string }): Observable<any> {
     return this.http.get<any>(
       `${this.apiUrl}/checkuser?username=${data.username}&email=${data.email}&mobile=${data.mobile}`
     );
   }
 
+  // Signup user
+  signup(data: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/signup`, data);
+  }
 
-
-  // Adds a new user
-  adduser(data: any): Observable<any> {
-    return this.http.post<any>(this.apiUrl, data);
+  // --- New login method ---
+  login(data: { emailOrMobile: string; password: string }): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/login`, data);
   }
 }
