@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity.Data;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Neko_api.Data;
@@ -31,6 +32,9 @@ namespace Neko_api.Controllers
         [HttpPost("signup")]
         public async Task<ActionResult<User>> CreateUser([FromBody] User user)
         {
+            if (user == null)
+                return BadRequest("Invalid user data.");
+
             bool exists = await _context.Users.AnyAsync(u =>
                 u.Username == user.Username || u.Email == user.Email || u.Mobile == user.Mobile);
 
